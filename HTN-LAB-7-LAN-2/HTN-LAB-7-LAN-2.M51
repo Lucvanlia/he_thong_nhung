@@ -1,0 +1,275 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        03/24/2026  20:17:24  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE STARTUP.obj, BAI_THEM.obj TO HTN-LAB-7-LAN-2 RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  STARTUP.obj (?C_STARTUP)
+  BAI_THEM.obj (BAI_THEM)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?CLDPTR)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?STRCMP)
+
+
+LINK MAP OF MODULE:  HTN-LAB-7-LAN-2 (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     000DH     UNIT         ?DT?BAI_THEM
+            DATA    0015H     0003H     UNIT         _DATA_GROUP_
+            IDATA   0018H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     01B4H     UNIT         ?C?LIB_CODE
+            CODE    09B4H     008FH     UNIT         ?CO?BAI_THEM
+            CODE    0A43H     008CH     UNIT         ?C_C51STARTUP
+            CODE    0ACFH     0071H     UNIT         ?PR?MAIN?BAI_THEM
+            CODE    0B40H     003AH     UNIT         ?PR?CHECK_PASSWORD?BAI_THEM
+            CODE    0B7AH     0025H     UNIT         ?PR?_UART_SENDSTRING?BAI_THEM
+            CODE    0B9FH     0024H     UNIT         ?PR?_DELAY_MS?BAI_THEM
+            CODE    0BC3H     0011H     UNIT         ?PR?_HANDLE_KEY_PRESS?BAI_THEM
+            CODE    0BD4H     000CH     UNIT         ?PR?UART_INIT?BAI_THEM
+            CODE    0BE0H     000CH     UNIT         ?C_INITSEG
+            CODE    0BECH     0008H     UNIT         ?PR?_UART_SENDCHAR?BAI_THEM
+
+
+
+OVERLAY MAP OF MODULE:   HTN-LAB-7-LAN-2 (?C_STARTUP)
+
+
+SEGMENT                                  DATA_GROUP 
+  +--> CALLED SEGMENT                  START    LENGTH
+------------------------------------------------------
+?C_C51STARTUP                          -----    -----
+  +--> ?PR?MAIN?BAI_THEM
+  +--> ?C_INITSEG
+
+?PR?MAIN?BAI_THEM                      -----    -----
+  +--> ?PR?UART_INIT?BAI_THEM
+  +--> ?CO?BAI_THEM
+  +--> ?PR?_UART_SENDSTRING?BAI_THEM
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/24/2026  20:17:24  PAGE 2
+
+
+  +--> ?PR?_DELAY_MS?BAI_THEM
+  +--> ?PR?_HANDLE_KEY_PRESS?BAI_THEM
+
+?PR?_UART_SENDSTRING?BAI_THEM          0015H    0003H
+  +--> ?PR?_UART_SENDCHAR?BAI_THEM
+
+?PR?_HANDLE_KEY_PRESS?BAI_THEM         -----    -----
+  +--> ?PR?_UART_SENDCHAR?BAI_THEM
+  +--> ?PR?CHECK_PASSWORD?BAI_THEM
+
+?PR?CHECK_PASSWORD?BAI_THEM            -----    -----
+  +--> ?CO?BAI_THEM
+  +--> ?PR?_UART_SENDSTRING?BAI_THEM
+
+
+
+SYMBOL TABLE OF MODULE:  HTN-LAB-7-LAN-2 (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:0A43H         SEGMENT       ?C_C51STARTUP
+  I:0018H         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:0A46H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:0A43H         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:0A43H         LINE#         133
+  C:0A45H         LINE#         134
+  C:0A46H         LINE#         135
+  C:0A47H         LINE#         136
+  C:0A49H         LINE#         185
+  C:0A4CH         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        BAI_THEM
+  C:0000H         SYMBOL        _ICE_DUMMY_
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/24/2026  20:17:24  PAGE 3
+
+
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:0008H         PUBLIC        correct_pass
+  B:0090H.0       PUBLIC        BTN1
+  B:0090H.1       PUBLIC        BTN2
+  B:0090H.2       PUBLIC        BTN3
+  B:0090H.3       PUBLIC        BTN4
+  B:0090H.4       PUBLIC        BTN5
+  B:0098H.1       PUBLIC        TI
+  C:0B7AH         PUBLIC        _UART_SendString
+  C:0ACFH         PUBLIC        main
+  C:0BECH         PUBLIC        _UART_SendChar
+  C:0BC3H         PUBLIC        _handle_key_press
+  D:0099H         PUBLIC        SBUF
+  C:0BA3H         PUBLIC        _Delay_ms
+  C:0BD4H         PUBLIC        UART_Init
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:000EH         PUBLIC        input_pass
+  D:008DH         PUBLIC        TH1
+  B:00A0H.0       PUBLIC        FAN
+  B:0088H.6       PUBLIC        TR1
+  C:0B40H         PUBLIC        check_password
+  D:0014H         PUBLIC        pass_idx
+  C:0B9FH         SYMBOL        L?0048
+  -------         PROC          L?0047
+  -------         ENDPROC       L?0047
+  C:0B9FH         SYMBOL        L?0048
+  -------         PROC          _DELAY_MS
+  D:0006H         SYMBOL        t
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:0BA3H         LINE#         20
+  C:0BA3H         LINE#         22
+  C:0BADH         LINE#         23
+  C:0BC2H         LINE#         24
+  -------         ENDPROC       _DELAY_MS
+  -------         PROC          UART_INIT
+  C:0BD4H         LINE#         27
+  C:0BD4H         LINE#         28
+  C:0BD7H         LINE#         29
+  C:0BDAH         LINE#         30
+  C:0BDDH         LINE#         31
+  C:0BDFH         LINE#         32
+  -------         ENDPROC       UART_INIT
+  -------         PROC          _UART_SENDCHAR
+  D:0007H         SYMBOL        c
+  C:0BECH         LINE#         34
+  C:0BECH         LINE#         35
+  C:0BEEH         LINE#         36
+  C:0BF1H         LINE#         37
+  C:0BF3H         LINE#         38
+  -------         ENDPROC       _UART_SENDCHAR
+  -------         PROC          _UART_SENDSTRING
+  D:0015H         SYMBOL        str
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/24/2026  20:17:24  PAGE 4
+
+
+  C:0B7AH         LINE#         41
+  C:0B80H         LINE#         42
+  C:0B8BH         LINE#         43
+  C:0B9CH         LINE#         44
+  C:0B9EH         LINE#         45
+  -------         ENDPROC       _UART_SENDSTRING
+  -------         PROC          CHECK_PASSWORD
+  C:0B40H         LINE#         48
+  C:0B40H         LINE#         49
+  C:0B46H         LINE#         50
+  C:0B48H         LINE#         53
+  C:0B58H         LINE#         54
+  C:0B5AH         LINE#         55
+  C:0B60H         LINE#         56
+  C:0B62H         LINE#         57
+  C:0B64H         LINE#         58
+  C:0B6DH         LINE#         59
+  C:0B6DH         LINE#         61
+  C:0B70H         LINE#         62
+  C:0B79H         LINE#         63
+  C:0B79H         LINE#         64
+  -------         ENDPROC       CHECK_PASSWORD
+  -------         PROC          _HANDLE_KEY_PRESS
+  D:0006H         SYMBOL        key
+  C:0BC3H         LINE#         67
+  C:0BC5H         LINE#         68
+  C:0BC8H         LINE#         69
+  C:0BCFH         LINE#         70
+  C:0BD1H         LINE#         71
+  -------         ENDPROC       _HANDLE_KEY_PRESS
+  -------         PROC          MAIN
+  C:0ACFH         LINE#         74
+  C:0ACFH         LINE#         75
+  C:0AD2H         LINE#         78
+  C:0AD5H         LINE#         79
+  C:0AD7H         LINE#         81
+  C:0AE0H         LINE#         82
+  C:0AE9H         LINE#         84
+  C:0AE9H         LINE#         85
+  C:0AECH         LINE#         86
+  C:0AEFH         LINE#         87
+  C:0AF2H         LINE#         88
+  C:0AF7H         LINE#         89
+  C:0AFAH         LINE#         90
+  C:0AFAH         LINE#         91
+  C:0AFAH         LINE#         92
+  C:0AFDH         LINE#         93
+  C:0B00H         LINE#         94
+  C:0B03H         LINE#         95
+  C:0B08H         LINE#         96
+  C:0B0BH         LINE#         97
+  C:0B0BH         LINE#         98
+  C:0B0BH         LINE#         99
+  C:0B0EH         LINE#         100
+  C:0B11H         LINE#         101
+  C:0B14H         LINE#         102
+  C:0B19H         LINE#         103
+BL51 BANKED LINKER/LOCATER V6.22                                                      03/24/2026  20:17:24  PAGE 5
+
+
+  C:0B1CH         LINE#         104
+  C:0B1CH         LINE#         105
+  C:0B1CH         LINE#         106
+  C:0B1FH         LINE#         107
+  C:0B22H         LINE#         108
+  C:0B25H         LINE#         109
+  C:0B2AH         LINE#         110
+  C:0B2DH         LINE#         111
+  C:0B2DH         LINE#         112
+  C:0B2DH         LINE#         113
+  C:0B30H         LINE#         114
+  C:0B33H         LINE#         115
+  C:0B36H         LINE#         116
+  C:0B3BH         LINE#         117
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        BAI_THEM
+
+  -------         MODULE        ?C?CLDPTR
+  C:0800H         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+  -------         MODULE        ?C?STRCMP
+  C:0997H         PUBLIC        ?C?STRCMP
+  -------         ENDMOD        ?C?STRCMP
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 01C2H BYTE (21%) *
+******************************************************************************
+
+Program Size: data=25.0 xdata=0 code=1015
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

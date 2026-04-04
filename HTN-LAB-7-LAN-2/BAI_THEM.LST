@@ -1,0 +1,150 @@
+C51 COMPILER V9.01   BAI_THEM                                                              03/24/2026 20:17:24 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE BAI_THEM
+OBJECT MODULE PLACED IN BAI_THEM.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE BAI_THEM.C BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+*** WARNING C500 IN LINE 1 OF BAI_THEM.C: LICENSE ERROR (R201: INVALID LICENSE ID CODE (LIC))
+
+   1          #include <reg51.h>
+   2          #include <string.h> // Thu vi?n d? dùng hàm strcmp so sánh chu?i
+   3          
+   4          // Ð?nh nghia các chân nút nh?n (Dùng làm bàn phím nh?p m?t kh?u)
+   5          sbit BTN1 = P1^0; // Tuong duong phím '1'
+   6          sbit BTN2 = P1^1; // Tuong duong phím '2'
+   7          sbit BTN3 = P1^2; // Tuong duong phím '3'
+   8          sbit BTN4 = P1^3; // Tuong duong phím '4'
+   9          sbit BTN5 = P1^4; // Tuong duong phím '5'
+  10          
+  11          // Ð?nh nghia chân di?u khi?n Qu?t (N?i ra Relay ho?c Transistor)
+  12          sbit FAN = P2^0;
+  13          
+  14          // Khai báo bi?n cho tính nang M?t kh?u
+  15          char correct_pass[] = "12345"; // M?t kh?u dúng (b?n có th? d?i, ví d? "11223")
+  16          char input_pass[6];            // M?ng luu m?t kh?u ngu?i dùng nh?p (5 ký t? + '\0')
+  17          unsigned char pass_idx = 0;    // Bi?n d?m v? trí ký t? dang nh?p
+  18          
+  19          // Hàm delay ch?ng d?i phím
+  20          void Delay_ms(unsigned int t) {
+  21   1          unsigned int i, j;
+  22   1          for (i = 0; i < t; i++)
+  23   1              for (j = 0; j < 113; j++);
+  24   1      }
+  25          
+  26          // Kh?i t?o UART d? in thông báo lên máy tính (d? debug)
+  27          void UART_Init() {
+  28   1          TMOD = 0x20;
+  29   1          TH1 = 0xFD;
+  30   1          SCON = 0x50;
+  31   1          TR1 = 1;
+  32   1      }
+  33          
+  34          void UART_SendChar(char c) {
+  35   1          SBUF = c;
+  36   1          while (TI == 0);
+  37   1          TI = 0;
+  38   1      }
+  39          
+  40          // Hàm g?i 1 chu?i ký t? qua UART
+  41          void UART_SendString(char *str) {
+  42   1          while (*str) {
+  43   2              UART_SendChar(*str++);
+  44   2          }
+  45   1      }
+  46          
+  47          // Hàm ki?m tra m?t kh?u
+  48          void check_password() {
+  49   1          if (pass_idx == 5) { // N?u dã nh?p d? 5 ký t?
+  50   2              input_pass[5] = '\0'; // Thêm ký t? k?t thúc chu?i
+  51   2              
+  52   2              // So sánh chu?i nh?p vào v?i m?t kh?u dúng
+  53   2              if (strcmp(input_pass, correct_pass) == 0) {
+  54   3                  FAN = 1; // Ðúng m?t kh?u -> B?T QU?T (Kích Relay)
+C51 COMPILER V9.01   BAI_THEM                                                              03/24/2026 20:17:24 PAGE 2   
+
+  55   3                  UART_SendString("\r\n=> DUNG MAT KHAU! QUAT DANG QUAY.\r\n");
+  56   3              } else {
+  57   3                  FAN = 0; // Sai m?t kh?u -> T?T QU?T
+  58   3                  UART_SendString("\r\n=> SAI MAT KHAU! TAT QUAT.\r\n");
+  59   3              }
+  60   2              
+  61   2              pass_idx = 0; // Xóa ch? s? d?m d? cho phép nh?p l?i t? d?u
+  62   2              UART_SendString("Nhap lai mat khau: ");
+  63   2          }
+  64   1      }
+  65          
+  66          // Hàm x? lý khi 1 phím du?c nh?n
+  67          void handle_key_press(char key) {
+  68   1          UART_SendChar(key); // Hi?n th? phím v?a b?m lên màn hình máy tính
+  69   1          input_pass[pass_idx] = key; // Luu ký t? vào m?ng
+  70   1          pass_idx++;
+  71   1          check_password(); // G?i hàm ki?m tra
+  72   1      }
+  73          
+  74          void main() {
+  75   1          UART_Init();
+  76   1          
+  77   1          // Thi?t l?p tr?ng thái ban d?u
+  78   1          P1 = 0xFF; // C?u hình Port 1 làm Input
+  79   1          FAN = 0;   // Ban d?u t?t qu?t
+  80   1          
+  81   1          UART_SendString("He thong khoi dong...\r\n");
+  82   1          UART_SendString("Vui long nhap mat khau 5 so: ");
+  83   1      
+  84   1          while (1) {
+  85   2              if (BTN1 == 0) {
+  86   3                  Delay_ms(20);
+  87   3                  if (BTN1 == 0) {
+  88   4                      handle_key_press('1'); // B?m nút 1 thì luu ký t? '1'
+  89   4                      while (BTN1 == 0);
+  90   4                  }
+  91   3              }
+  92   2              if (BTN2 == 0) {
+  93   3                  Delay_ms(20);
+  94   3                  if (BTN2 == 0) {
+  95   4                      handle_key_press('2');
+  96   4                      while (BTN2 == 0);
+  97   4                  }
+  98   3              }
+  99   2              if (BTN3 == 0) {
+ 100   3                  Delay_ms(20);
+ 101   3                  if (BTN3 == 0) {
+ 102   4                      handle_key_press('3');
+ 103   4                      while (BTN3 == 0);
+ 104   4                  }
+ 105   3              }
+ 106   2              if (BTN4 == 0) {
+ 107   3                  Delay_ms(20);
+ 108   3                  if (BTN4 == 0) {
+ 109   4                      handle_key_press('4');
+ 110   4                      while (BTN4 == 0);
+ 111   4                  }
+ 112   3              }
+ 113   2              if (BTN5 == 0) {
+ 114   3                  Delay_ms(20);
+ 115   3                  if (BTN5 == 0) {
+ 116   4                      handle_key_press('5');
+C51 COMPILER V9.01   BAI_THEM                                                              03/24/2026 20:17:24 PAGE 3   
+
+ 117   4                      while (BTN5 == 0);
+ 118   4                  }
+ 119   3              }
+ 120   2          }
+ 121   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    281    ----
+   CONSTANT SIZE    =    143    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     13       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,4 @@
+"STARTUP.obj",
+"HTN_Lab07-TEST.obj" 
+TO "HTN_Lab07-2" 
+RAMSIZE(256) 
